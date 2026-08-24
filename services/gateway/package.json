@@ -1,0 +1,29 @@
+{
+  "name": "@tradecheck/gateway",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@fastify/helmet": "^13.0.2",
+    "@fastify/jwt": "^10.0.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "@tradecheck/contracts": "workspace:*",
+    "@tradecheck/harness": "workspace:*",
+    "@tradecheck/providers": "workspace:*",
+    "@tradecheck/vietnam": "workspace:*",
+    "fastify": "^5.6.0",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

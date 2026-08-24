@@ -1,0 +1,4 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "cd ../.. && pnpm --filter @tradecheck/site build"
+}

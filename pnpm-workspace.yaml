@@ -1,0 +1,13 @@
+packages:
+  - "apps/*"
+  - "services/*"
+  - "packages/*"
+  - "extensions/*"
+
+allowBuilds:
+  esbuild: set this to true or false
+
+injectWorkspacePackages: true
+
+onlyBuiltDependencies:
+  - esbuild

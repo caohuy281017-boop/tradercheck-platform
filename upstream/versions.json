@@ -1,0 +1,14 @@
+{
+  "tradetally": {
+    "repository": "https://github.com/GeneBO98/tradetally",
+    "ref": "v2.9.2",
+    "integration": "http-adapter",
+    "license": "Apache-2.0"
+  },
+  "vibeTrading": {
+    "repository": "https://github.com/HKUDS/Vibe-Trading",
+    "ref": "v0.1.14",
+    "integration": "http-or-mcp-adapter",
+    "license": "MIT"
+  }
+}

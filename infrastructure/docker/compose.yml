@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:16.9-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tradecheck
+      POSTGRES_USER: tradecheck
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - tradecheck_postgres:/var/lib/postgresql/data
+      - ../postgres/init.sql:/docker-entrypoint-initdb.d/001-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tradecheck -d tradecheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [private]
+    security_opt: ["no-new-privileges:true"]
+
+  gateway:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/gateway.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+      APP_ORIGIN: ${APP_ORIGIN:?set APP_ORIGIN}
+      SITE_ORIGIN: ${SITE_ORIGIN:?set SITE_ORIGIN}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
+      DATABASE_URL: postgresql://tradecheck:${POSTGRES_PASSWORD}@postgres:5432/tradecheck
+      TRADETALLY_BASE_URL: ${TRADETALLY_BASE_URL:-}
+      TRADETALLY_SERVICE_TOKEN: ${TRADETALLY_SERVICE_TOKEN:-}
+      VIBE_TRADING_BASE_URL: ${VIBE_TRADING_BASE_URL:-}
+      VIBE_TRADING_SERVICE_TOKEN: ${VIBE_TRADING_SERVICE_TOKEN:-}
+      FEATURE_TRADE_ANALYTICS: ${FEATURE_TRADE_ANALYTICS:-true}
+      FEATURE_VN_IMPORT: ${FEATURE_VN_IMPORT:-true}
+      FEATURE_AI_RESEARCH: ${FEATURE_AI_RESEARCH:-false}
+      FEATURE_BACKTEST: ${FEATURE_BACKTEST:-false}
+      FEATURE_HUB: ${FEATURE_HUB:-false}
+    ports:
+      - "127.0.0.1:8080:8080"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    networks: [private]
+
+networks:
+  private:
+    driver: bridge
+
+volumes:
+  tradecheck_postgres:
