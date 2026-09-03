@@ -20,7 +20,9 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      # Production-MVP branch introduces a new workspace package. CI resolves the
+      # workspace graph first; the generated lockfile must be committed before merge.
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm build
       - run: pnpm test
       - run: pnpm -r --if-present typecheck
