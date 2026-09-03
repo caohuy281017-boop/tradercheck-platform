@@ -1,6 +1,6 @@
 {
   "name": "@tradecheck/web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
@@ -11,6 +11,7 @@
   "dependencies": {
     "@tradecheck/contracts": "workspace:*",
     "@tradecheck/parsers": "workspace:*",
+    "@tradecheck/trading-core": "workspace:*",
     "next": "16.3.2",
     "react": "19.2.4",
     "react-dom": "19.2.4"
